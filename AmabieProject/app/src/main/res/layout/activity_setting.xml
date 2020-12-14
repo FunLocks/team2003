@@ -16,12 +16,22 @@
         tools:ignore="MissingConstraints" />
 
     <Button
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:onClick="onBackHome"
+        android:text="戻る"
+        app:layout_constraintBottom_toTopOf="@+id/maps_button" />
+
+    <Button
         android:id="@+id/maps_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
         android:onClick="clickOnMaps"
         android:text="地点登録"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="199dp"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="16dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
