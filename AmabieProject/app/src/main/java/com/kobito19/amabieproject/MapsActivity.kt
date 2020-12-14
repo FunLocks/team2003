@@ -1,6 +1,8 @@
 package com.kobito19.amabieproject
 
 import android.app.Activity
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
@@ -16,6 +18,10 @@ import com.google.android.gms.maps.model.MarkerOptions
 import android.location.Address
 import android.location.Geocoder
 import android.util.Log
+import android.view.View
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
@@ -181,6 +187,27 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
         setUpMap()
     }
-
     override fun onMarkerClick(p0: Marker?) = false
+
+
+    fun clickOnPin(view: View) {
+        val mybtn = findViewById<Button>(R.id.pin_setting)
+        mybtn.setOnClickListener {
+            val myedit = EditText(this)
+            val dialog = AlertDialog.Builder(this)
+            dialog.setTitle("地点を入力してください")
+            dialog.setView(myedit)
+            dialog.setPositiveButton("OK", DialogInterface.OnClickListener { _, _ ->
+                // OKボタン押したときの処理
+                val userText = myedit.getText().toString()
+                Toast.makeText(this, "$userText と設定しました", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, SettingActivity::class.java)
+                intent.putExtra("MAP_ACTIVITY", userText)
+                startActivity(intent)
+            })
+            dialog.setNegativeButton("キャンセル", null)
+            dialog.show()
+        }
+
+    }
 }

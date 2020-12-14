@@ -6,6 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".SettingActivity">
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        tools:layout_editor_absoluteX="122dp"
+        tools:layout_editor_absoluteY="199dp"
+        tools:ignore="MissingConstraints" />
+
     <Button
         android:id="@+id/maps_button"
         android:layout_width="wrap_content"
@@ -13,5 +22,6 @@
         android:onClick="clickOnMaps"
         android:text="地点登録"
         tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="199dp" />
+        tools:layout_editor_absoluteY="199dp"
+        tools:ignore="MissingConstraints" />
 </androidx.constraintlayout.widget.ConstraintLayout>
