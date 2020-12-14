@@ -122,7 +122,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 */
 
     private fun placeMarkerOnMap(location: LatLng) {
-        val markerOptions = MarkerOptions().position(location)
+        val markerOptions = MarkerOptions().position(location).draggable(true)
 
         /*val titleStr = getAddress(location)
         markerOptions.title(titleStr)*/
@@ -154,7 +154,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 super.onLocationResult(p0)
 
                 lastLocation = p0.lastLocation
-                placeMarkerOnMap(LatLng(lastLocation.latitude, lastLocation.longitude))
+                //placeMarkerOnMap(LatLng(lastLocation.latitude, lastLocation.longitude))
             }
         }
         createLocationRequest()
