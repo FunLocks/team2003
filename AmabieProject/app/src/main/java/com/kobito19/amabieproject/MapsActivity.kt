@@ -47,5 +47,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     .title("置いたピン")
             )
         }
+        mMap.isMyLocationEnabled = true
     }
 }
