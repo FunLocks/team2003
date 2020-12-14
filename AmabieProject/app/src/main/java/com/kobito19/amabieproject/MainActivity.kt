@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onClickSetting(view: View) {
-        val intent = Intent(this, MapsActivity::class.java)
+        val intent = Intent(this, SettingActivity::class.java)
         startActivity(intent)
     }
 }

@@ -7,9 +7,11 @@
     tools:context=".SettingActivity">
 
     <Button
-        android:id="@+id/back_button"
+        android:id="@+id/maps_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="onBackHome"
-        android:text="戻る" />
+        android:onClick="clickOnMaps"
+        android:text="地点登録"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="199dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
