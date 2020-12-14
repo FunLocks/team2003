@@ -3,6 +3,7 @@ package com.kobito19.amabieproject
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
+import androidx.core.app.ShareCompat
 
 
 class MainActivity : AppCompatActivity() {
@@ -14,7 +15,11 @@ class MainActivity : AppCompatActivity() {
         var text_share = findViewById<TextView>(R.id.share_button)
 
         text_share.setOnClickListener{
-            text_console.setText(R.string.text_message1)
+            val builder = ShareCompat.IntentBuilder.from(this)
+            builder.setText("Test")
+            builder.setSubject("")
+            builder.setType("text/plain")
+            builder.startChooser()
         }
     }
 }
