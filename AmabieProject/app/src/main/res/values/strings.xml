@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">AmabieProject</string>
-    <string name="text_message">none</string>
-    <string name="text_message1">Done!!</string>
     <string name="share_button">Share</string>
-    <string name="text_message2">OK?</string>
+
 </resources>

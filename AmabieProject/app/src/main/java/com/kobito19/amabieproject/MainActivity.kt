@@ -11,7 +11,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        var text_console = findViewById<TextView>(R.id.text_message)
         var text_share = findViewById<TextView>(R.id.share_button)
 
         text_share.setOnClickListener{
