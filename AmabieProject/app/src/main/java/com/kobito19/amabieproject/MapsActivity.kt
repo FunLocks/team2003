@@ -2,6 +2,7 @@ package com.kobito19.amabieproject
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.IntentSender
@@ -201,9 +202,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 // OKボタン押したときの処理
                 val userText = myedit.getText().toString()
                 Toast.makeText(this, "$userText と設定しました", Toast.LENGTH_SHORT).show()
+                getSharedPreferences("my_settings", Context.MODE_PRIVATE).edit().apply {
+                    putString("placeValue", userText)
+                    apply()
+                }
                 val intent = Intent(this, SettingActivity::class.java)
-                intent.putExtra("MAP_ACTIVITY", userText)
-                startActivity(intent)
+//                intent.putExtra("MAP_ACTIVITY", userText)
+                setResult(RESULT_OK, intent)
+                finish()
+//                startActivity(intent)
             })
             dialog.setNegativeButton("キャンセル", null)
             dialog.show()
