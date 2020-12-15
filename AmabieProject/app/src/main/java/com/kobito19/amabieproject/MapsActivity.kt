@@ -9,25 +9,19 @@ import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
-import android.location.Address
-import android.location.Geocoder
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
+import com.google.android.gms.maps.*
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
-import java.io.IOException
+import com.google.android.gms.maps.model.MarkerOptions
 
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
@@ -39,12 +33,33 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     private lateinit var locationCallback: LocationCallback
     private lateinit var locationRequest: LocationRequest
     private var locationUpdateState = false
-
+    private var pinpoint: LatLng? = null
 
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
         private const val REQUEST_CHECK_SETTINGS = 2
         
+    }
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_maps)
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        val mapFragment = supportFragmentManager
+                .findFragmentById(R.id.map) as SupportMapFragment
+        mapFragment.getMapAsync(this)
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+        locationCallback = object : LocationCallback() {
+            override fun onLocationResult(p0: LocationResult) {
+                super.onLocationResult(p0)
+
+                lastLocation = p0.lastLocation
+                //placeMarkerOnMap(LatLng(lastLocation.latitude, lastLocation.longitude))
+            }
+        }
+        createLocationRequest()
     }
 
     private fun setUpMap() {
@@ -89,6 +104,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
         val client = LocationServices.getSettingsClient(this)
         val task = client.checkLocationSettings(builder.build())
+        var pinPoint: Int = 0
 
         task.addOnSuccessListener {
             locationUpdateState = true
@@ -105,35 +121,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         }
     }
 
-/*
-    private fun getAddress(latLng: LatLng): String {
-        val geocoder = Geocoder(this)
-        val addresses: List<Address>?
-        val address: Address?
-        var addressText = ""
-
-        try {
-            addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
-            if (null != addresses && addresses.isNotEmpty()) {
-                address = addresses[0]
-                for (i in 0 until address.maxAddressLineIndex) {
-                    addressText += if (i == 0) address.getAddressLine(i) else "\n" + address.getAddressLine(i)
-                }
-            }
-        } catch (e: IOException) {
-            Log.e("MapsAvtivity", e.localizedMessage)
-        }
-
-        return addressText
-    }
-*/
-
     private fun placeMarkerOnMap(location: LatLng) {
         val markerOptions = MarkerOptions().position(location).draggable(true)
-
-        /*val titleStr = getAddress(location)
-        markerOptions.title(titleStr)*/
-
         mMap.addMarker(markerOptions)
     }
 
@@ -147,25 +136,34 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_maps)
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        val mapFragment = supportFragmentManager
-                .findFragmentById(R.id.map) as SupportMapFragment
-        mapFragment.getMapAsync(this)
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+/* 座標->住所
+    private fun getAddress(latLng: LatLng): String {
+        val geocoder = Geocoder(this)
+        val addresses: List<Address>?
+        val address: Address?
+        var addressText = ""
 
-        locationCallback = object : LocationCallback() {
-            override fun onLocationResult(p0: LocationResult) {
-                super.onLocationResult(p0)
-
-                lastLocation = p0.lastLocation
-                //placeMarkerOnMap(LatLng(lastLocation.latitude, lastLocation.longitude))
+        try {
+            addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
+            if(null != addresses && !addresses.isEmpty()) {
+                address = addresses[0]
+                for (i in 0 until address.maxAddressLineIndex) {
+                    addressText += if (i == 0) address.getAddressLine(i) else "\n" + address.getAddressLine(i)
+                }
             }
+        } catch (e: IOException) {
+            Log.e("MapsActivity", e.localizedMessage)
         }
-        createLocationRequest()
+        return addressText
     }
+
+    fun onGetCenter(view: View) {
+                val cameraPos = mMap.getCameraPosition ();
+                Toast.makeText(this, "中心位置\n緯度:" + cameraPos.target.latitude + "\n経度:" + cameraPos.target.longitude, Toast.LENGTH_LONG).show();
+      }
+
+ */
+
 
     override fun onPause() {
         super.onPause()
@@ -178,6 +176,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             startLocationUpdates()
         }
     }
+
 
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -201,9 +200,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             dialog.setPositiveButton("OK", DialogInterface.OnClickListener { _, _ ->
                 // OKボタン押したときの処理
                 val userText = myedit.getText().toString()
+                val cameraPos = mMap.getCameraPosition ();
                 Toast.makeText(this, "$userText と設定しました", Toast.LENGTH_SHORT).show()
                 getSharedPreferences("my_settings", Context.MODE_PRIVATE).edit().apply {
                     putString("placeValue", userText)
+                    putInt("latitude", cameraPos.target.latitude.toInt())
+                    putInt("longitude", cameraPos.target.longitude.toInt())
+                    putString("placePoint", pinpoint.toString())
                     apply()
                 }
                 val intent = Intent(this, SettingActivity::class.java)

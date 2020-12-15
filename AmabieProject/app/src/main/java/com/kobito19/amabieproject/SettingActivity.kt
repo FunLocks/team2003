@@ -22,9 +22,13 @@ class SettingActivity : AppCompatActivity() {
     }
     private fun displaySetting() {
         val pref = getSharedPreferences("my_settings", Context.MODE_PRIVATE)
-        val stringValue = pref.getString("placeValue", "")
+        val stringValue = pref.getInt("latitude", 0)
+        val stringValueI = pref.getInt("longitude", 0)
         val messageView : TextView = findViewById(R.id.textView)
-        messageView.text = stringValue
+        val messageViewI : TextView = findViewById(R.id.textView2)
+        messageView.text = "緯度$stringValue"
+        messageViewI.text = "経度$stringValueI"
+
     }
 
     fun onBackHome(view: View) {
