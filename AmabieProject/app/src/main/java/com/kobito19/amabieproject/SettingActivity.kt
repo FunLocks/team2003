@@ -17,6 +17,7 @@ import android.widget.Switch
 import android.widget.TextView
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import kotlin.math.sqrt
 
 class SettingActivity : AppCompatActivity() {
     @SuppressLint("UseSwitchCompatOrMaterialCode")
@@ -26,14 +27,20 @@ class SettingActivity : AppCompatActivity() {
 
         val pref = getSharedPreferences("my_settings", Context.MODE_PRIVATE)
         var notificationButton = findViewById<Switch>(R.id.notfication_button)
+        val centerLatitude = pref.getFloat("latitude", 0f)
+        val centerLongitude = pref.getFloat("longitude", 0f)
+        val lastLatitude = pref.getFloat("lastLatitude", 0f)
+        val lastLongitude = pref.getFloat("lastLongitude", 0f)
+        val distance = distanceMeasure(lastLatitude, lastLongitude, centerLatitude, centerLongitude)
+
         notificationButton.isChecked = pref.getBoolean("notification_Value", false)
-//        notiButton.setSwitchTypeface(Typeface.DEFAULT_BOLD, Typeface.ITALIC)
         notificationButton.setOnCheckedChangeListener { _, isChecked ->
             getSharedPreferences("my_settings", Context.MODE_PRIVATE).edit().apply {
                 if (isChecked) {
                     putBoolean("notification_Value", true)
                     apply()
                     Log.d("switch", "true")
+                    if(distance <= 0.001)
                     notificationDiaplay()
                 } else {
                     putBoolean("notification_Value", false)
@@ -42,23 +49,16 @@ class SettingActivity : AppCompatActivity() {
                 }
             }
         }
-        /*
-        val usertext = intent.getStringExtra("MAP_ACTIVITY")
-        val messageView: TextView = findViewById(R.id.textView)
-        messageView.text = usertext*/
-
         displaySetting()
-
-
     }
 
-//    @SuppressLint("SetTextI18n")
     private fun displaySetting() {
     val pref = getSharedPreferences("my_settings", Context.MODE_PRIVATE)
     val placeValue = pref.getString("placeValue", "")
     val messageView: TextView = findViewById(R.id.textView)
     messageView.text = placeValue
-    // witch debug
+    // switch debug
+        /*
     val switchValue = pref.getBoolean("notification_Value", false)
     val switchText: TextView = findViewById(R.id.switchText)
     switchText.text = switchValue.toString()
@@ -70,17 +70,17 @@ class SettingActivity : AppCompatActivity() {
     centerLatitudeView.text = "緯度$centerLatitude"
     centerlongitudeView.text = "経度$centerlongitude"
     // lastLocationDebug
-//    Log.d("lastLatitude", pref.getFloat("lastLatitude", 0f).toString())
-//    Log.d("lastLongitude", pref.getFloat("lastLongitude", 0f).toString())
-
+    Log.d("lastLatitude", pref.getFloat("lastLatitude", 0f).toString())
+    Log.d("lastLongitude", pref.getFloat("lastLongitude", 0f).toString())
+*/
 }
 
 
-
+/*
     fun onBackHome(view: View) {
         finish()
     }
-
+*/
     fun clickOnMaps(view: View) {
         val intent = Intent(this, MapsActivity::class.java)
         startActivity(intent)
@@ -90,7 +90,11 @@ class SettingActivity : AppCompatActivity() {
         super.startActivityForResult(intent, requestCode)
         displaySetting()
     }
-    
+
+    fun distanceMeasure(lastLatittude: Float, lastLongtitude: Float, centerLatitude : Float, centerLongtitude: Float): Double {
+        return Math.sqrt(((centerLatitude - lastLatittude) * (centerLatitude - lastLatittude) + (centerLongtitude - lastLongtitude) * (centerLongtitude - lastLongtitude)).toDouble())
+
+    }
 
     fun notificationDiaplay() {
 
@@ -106,8 +110,8 @@ class SettingActivity : AppCompatActivity() {
         val channelId = "NOTIFICATION_LOCAL"
         val builder = NotificationCompat.Builder(this, channelId).apply {
             setSmallIcon(R.drawable.ic_launcher_background)
-            setContentTitle("通知タイトル")
-            setContentText("通知内容")
+            setContentTitle("おかえりなさい！")
+            setContentText("手洗いうがいをしましょう！")
             setContentIntent(pendingIntent)
             priority = NotificationCompat.PRIORITY_HIGH
         }
