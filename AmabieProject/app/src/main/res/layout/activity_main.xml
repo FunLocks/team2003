@@ -7,6 +7,21 @@
     tools:context=".MainActivity">
 
     <Button
+        android:id="@+id/share_button"
+        android:layout_width="99dp"
+        android:layout_height="78dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginLeft="44dp"
+        android:layout_marginTop="596dp"
+        android:layout_marginEnd="279dp"
+        android:layout_marginRight="279dp"
+        android:text="@string/share_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+      <Button
         android:id="@+id/setting_button"
         android:layout_width="118dp"
         android:layout_height="107dp"

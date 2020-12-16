@@ -43,6 +43,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!-- シェア用 -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.kobito19.amabieproject.fileprovider"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/fileprovider" />
+        </provider>
     </application>
-
+    <uses-permission android:name="android.permission.INTERNET"/>
 </manifest>
