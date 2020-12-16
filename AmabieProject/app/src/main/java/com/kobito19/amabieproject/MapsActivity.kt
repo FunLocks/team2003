@@ -8,7 +8,9 @@ import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.location.Location
+import android.location.LocationManager
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -56,6 +58,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 super.onLocationResult(p0)
 
                 lastLocation = p0.lastLocation
+
+                getSharedPreferences("my_settings", Context.MODE_PRIVATE).edit().apply {
+                    putFloat("lastLatitude", lastLocation.latitude.toFloat())
+                    putFloat("lastLongitude", lastLocation.longitude.toFloat())
+                    apply()
+                }
+
+
                 //placeMarkerOnMap(LatLng(lastLocation.latitude, lastLocation.longitude))
             }
         }
@@ -204,8 +214,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 Toast.makeText(this, "$userText と設定しました", Toast.LENGTH_SHORT).show()
                 getSharedPreferences("my_settings", Context.MODE_PRIVATE).edit().apply {
                     putString("placeValue", userText)
-                    putInt("latitude", cameraPos.target.latitude.toInt())
-                    putInt("longitude", cameraPos.target.longitude.toInt())
+                    putFloat("latitude", cameraPos.target.latitude.toFloat())
+                    putFloat("longitude", cameraPos.target.longitude.toFloat())
                     putString("placePoint", pinpoint.toString())
                     apply()
                 }
@@ -218,6 +228,5 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             dialog.setNegativeButton("キャンセル", null)
             dialog.show()
         }
-
     }
 }
