@@ -1,0 +1,23 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "Amabie.moc3",
+		"Textures": [
+			"Amabie.1024/texture_00.png"
+		],
+		"Physics": "Amabie.physics3.json",
+		"DisplayInfo": "Amabie.cdi3.json"
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": []
+		},
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": []
+		}
+	]
+}
