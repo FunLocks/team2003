@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.graphics.Typeface
@@ -33,6 +34,7 @@ class SettingActivity : AppCompatActivity() {
                     putBoolean("notification_Value", true)
                     apply()
                     Log.d("switch", "true")
+                    notificationDiaplay()
                 } else {
                     putBoolean("notification_Value", false)
                     apply()
@@ -88,33 +90,42 @@ class SettingActivity : AppCompatActivity() {
         super.startActivityForResult(intent, requestCode)
         displaySetting()
     }
+    
 
     fun notificationDiaplay() {
+
         val CHANNEL_ID = "channel_id"
         val channel_name = "channel_name"
         val channel_description = "channel_description "
 
-        ///APIレベルに応じてチャネルを作成
+        val intent = Intent(this, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        val pendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
+
+        val channelId = "NOTIFICATION_LOCAL"
+        val builder = NotificationCompat.Builder(this, channelId).apply {
+            setSmallIcon(R.drawable.ic_launcher_background)
+            setContentTitle("通知タイトル")
+            setContentText("通知内容")
+            setContentIntent(pendingIntent)
+            priority = NotificationCompat.PRIORITY_HIGH
+        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = channel_name
             val descriptionText = channel_description
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
-                var description = descriptionText
+                description = descriptionText
             }
-            /// チャネルを登録
-            val notificationManager: NotificationManager =
-                    getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
+
+            val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            manager.createNotificationChannel(channel)
         }
 
-        /// 通知の中身
-        val builder = NotificationCompat.Builder(this, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_launcher_background)    /// 表示されるアイコン
-                .setContentTitle("ハローkotlin!!")                  /// 通知タイトル
-                .setContentText("今日も1日がんばるぞい!")           /// 通知コンテンツ
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)   /// 通知の優先度
-
+        with(NotificationManagerCompat.from(this)) {
+            notify(12345, builder.build())
+        }
     }
-
 }
