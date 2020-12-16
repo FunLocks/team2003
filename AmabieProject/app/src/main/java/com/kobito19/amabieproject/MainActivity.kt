@@ -14,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.content.Intent
 import android.view.View
+import android.widget.ImageView
+import com.bumptech.glide.Glide
 
 
 class MainActivity : AppCompatActivity() {
@@ -23,6 +25,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val decorView: View = window.decorView
         var text_share = findViewById<TextView>(R.id.share_button)
+
+        val gifMovie: Int = R.raw.walk_l
+        val gifView = findViewById<ImageView>(R.id.gifView)
+        Glide.with(this).load(gifMovie).into(gifView)
+
 
         text_share.setOnClickListener{
             share(decorView, "test")
