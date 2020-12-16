@@ -26,9 +26,22 @@ class MainActivity : AppCompatActivity() {
         val decorView: View = window.decorView
         var text_share = findViewById<TextView>(R.id.share_button)
 
-        val gifMovie: Int = R.raw.walk_l
+        var i = 0
+        var gifMovie: Int = R.raw.ldle
         val gifView = findViewById<ImageView>(R.id.gifView)
+        val amabieList = listOf(R.raw.ldle, R.raw.walk_l, R.raw.walk_r)
+        if(i % 2 == 0/* 怒り */){
+            gifMovie = R.raw.angry_2
+            i += 1
+        } else if( i % 5 == 0 /*スマイル*/){
+            gifMovie = R.raw.smile_2
+            i += 1
+        } else {
+            gifMovie = amabieList[(0..2).random()]
+            i += 1
+        }
         Glide.with(this).load(gifMovie).into(gifView)
+
 
 
         text_share.setOnClickListener{
