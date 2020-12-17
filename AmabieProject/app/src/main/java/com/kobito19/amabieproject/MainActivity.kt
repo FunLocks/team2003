@@ -19,6 +19,8 @@ import android.widget.ImageButton
 
 class MainActivity : AppCompatActivity() {
 
+    var serifBox = listOf("おはよう", "こんにちは", "おやすみ", "やれんのか小人共2020", "FunLocks")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -67,5 +69,12 @@ class MainActivity : AppCompatActivity() {
     fun onClickSetting(view: View) {
         val intent = Intent(this, SettingActivity::class.java)
         startActivity(intent)
+    }
+
+    fun chengText(view: View) {
+        val serif = findViewById<TextView>(R.id.selif_text)
+        var randomText = serifBox[(0..4).random()]
+        serif.text = randomText
+
     }
 }
