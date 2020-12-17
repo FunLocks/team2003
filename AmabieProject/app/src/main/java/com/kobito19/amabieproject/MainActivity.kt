@@ -1,19 +1,28 @@
 package com.kobito19.amabieproject
 
+import android.app.Activity
+import android.graphics.Bitmap
+import android.net.Uri
+import android.widget.TextView
+import androidx.core.app.ShareCompat
+import androidx.core.content.FileProvider
+import java.io.File
+import java.io.FileOutputStream
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.content.Intent
+import android.view.View
 import android.Manifest
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
-import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import org.altbeacon.beacon.*
 import org.altbeacon.beacon.startup.BootstrapNotifier
@@ -34,6 +43,7 @@ class MainActivity : AppCompatActivity(),BootstrapNotifier,BeaconConsumer {
     private lateinit var beacon : Beacon
     private lateinit var beaconManager: BeaconManager
     private var region = Region("all-beacons-region",null,null,null)
+
     @RequiresApi(Build.VERSION_CODES.Q)
     @NeedsPermission(Manifest.permission.FOREGROUND_SERVICE,Manifest.permission.ACCESS_BACKGROUND_LOCATION)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +51,17 @@ class MainActivity : AppCompatActivity(),BootstrapNotifier,BeaconConsumer {
         requestPermission()
         setContentView(R.layout.activity_main)
         createNotificationChannel()
+        val decorView: View = window.decorView
+        var text_share = findViewById<TextView>(R.id.share_button)
+
+        text_share.setOnClickListener{
+            share(decorView, "test")
+//            val builder = ShareCompat.IntentBuilder.from(this)
+//            builder.setText("Test")
+//            builder.setSubject("")
+//            builder.setType("text/plain")
+//            builder.startChooser()
+        }
         ///////////////////////////////////////////////////ビーコン
         beaconManager = BeaconManager.getInstanceForApplication(this)
         beaconManager.beaconParsers.add(BeaconParser().setBeaconLayout(ALTBEACON_FORMAT))
@@ -159,5 +180,39 @@ class MainActivity : AppCompatActivity(),BootstrapNotifier,BeaconConsumer {
             val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
+    }
+    // シェア用のUriを取得
+    private fun Activity.getViewCacheContentUri(view: View): Uri {
+        view.isDrawingCacheEnabled = true
+        view.destroyDrawingCache()
+        val cache = view.drawingCache
+        val bitmap = Bitmap.createBitmap(cache)
+        view.isDrawingCacheEnabled = false
+        val cachePath = File(cacheDir, "images")
+        cachePath.mkdirs()
+        val filePath = File(cachePath, "share.png")
+        val fos = FileOutputStream(filePath.absolutePath)
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
+        fos.close()
+        return FileProvider.getUriForFile(this, "$packageName.fileprovider", filePath)
+    }
+
+    // シェア
+    fun Activity.share(view: View, shareText: String) {
+        val contentUri = getViewCacheContentUri(view)
+        startActivity(Intent().apply {
+            action = Intent.ACTION_SEND
+            flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+            setDataAndType(contentUri, contentResolver.getType(contentUri))
+            putExtra(Intent.EXTRA_STREAM, contentUri)
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TEXT, shareText)
+        })
+    }
+
+
+    fun onClickSetting(view: View) {
+        val intent = Intent(this, SettingActivity::class.java)
+        startActivity(intent)
     }
 }

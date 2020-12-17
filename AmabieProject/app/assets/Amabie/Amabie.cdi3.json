@@ -1,0 +1,132 @@
+{
+	"Version": 3,
+	"Parameters": [
+		{
+			"Id": "ParamAngleX",
+			"GroupId": "",
+			"Name": "角度 X"
+		},
+		{
+			"Id": "ParamAngleY",
+			"GroupId": "",
+			"Name": "角度 Y"
+		},
+		{
+			"Id": "ParamEyeLOpen",
+			"GroupId": "",
+			"Name": "左目　開閉"
+		},
+		{
+			"Id": "ParamEyeLSmile",
+			"GroupId": "",
+			"Name": "左目　笑顔"
+		},
+		{
+			"Id": "ParamEyeROpen",
+			"GroupId": "",
+			"Name": "右目　開閉"
+		},
+		{
+			"Id": "ParamEyeRSmile",
+			"GroupId": "",
+			"Name": "右目　笑顔"
+		},
+		{
+			"Id": "ParamEyeBallX",
+			"GroupId": "",
+			"Name": "目玉 X"
+		},
+		{
+			"Id": "ParamEyeBallY",
+			"GroupId": "",
+			"Name": "目玉 Y"
+		},
+		{
+			"Id": "ParamMouthOpenY",
+			"GroupId": "",
+			"Name": "口　開閉"
+		},
+		{
+			"Id": "ParamCheek",
+			"GroupId": "",
+			"Name": "照れ"
+		},
+		{
+			"Id": "ParamBodyAngleX",
+			"GroupId": "",
+			"Name": "体の回転　X"
+		},
+		{
+			"Id": "ParamBodyAngleY",
+			"GroupId": "",
+			"Name": "体の回転　Y"
+		},
+		{
+			"Id": "ParamBreath",
+			"GroupId": "",
+			"Name": "呼吸"
+		},
+		{
+			"Id": "ParamHairSide",
+			"GroupId": "",
+			"Name": "髪揺れ　横"
+		},
+		{
+			"Id": "Param",
+			"GroupId": "",
+			"Name": "足　歩行"
+		},
+		{
+			"Id": "Param2",
+			"GroupId": "",
+			"Name": "怒り"
+		}
+	],
+	"ParameterGroups": [],
+	"Parts": [
+		{
+			"Id": "Part2",
+			"Name": "head"
+		},
+		{
+			"Id": "Part4",
+			"Name": "body"
+		},
+		{
+			"Id": "Part6",
+			"Name": "foot"
+		},
+		{
+			"Id": "Part5",
+			"Name": "hair"
+		},
+		{
+			"Id": "Part",
+			"Name": "core"
+		},
+		{
+			"Id": "Part3",
+			"Name": "face"
+		},
+		{
+			"Id": "Part11",
+			"Name": "foot_3"
+		},
+		{
+			"Id": "Part10",
+			"Name": "foot_2"
+		},
+		{
+			"Id": "Part9",
+			"Name": "foot_1"
+		},
+		{
+			"Id": "Part7",
+			"Name": "pupil"
+		},
+		{
+			"Id": "Part8",
+			"Name": "cheek"
+		}
+	]
+}
