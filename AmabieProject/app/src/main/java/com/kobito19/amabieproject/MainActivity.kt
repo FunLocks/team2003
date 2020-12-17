@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.content.Intent
 import android.view.View
+import android.widget.ImageButton
 
 
 class MainActivity : AppCompatActivity() {
@@ -22,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val decorView: View = window.decorView
-        var text_share = findViewById<TextView>(R.id.share_button)
+        var text_share = findViewById<ImageButton>(R.id.share_button)
 
         text_share.setOnClickListener{
             share(decorView, "test")
