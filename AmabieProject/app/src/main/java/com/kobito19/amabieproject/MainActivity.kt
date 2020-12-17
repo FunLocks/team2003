@@ -19,6 +19,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.pm.PackageManager
+import android.nfc.Tag
 import android.os.Build
 import android.os.Handler
 import android.util.Log
@@ -75,18 +76,48 @@ class MainActivity : AppCompatActivity(),BootstrapNotifier,BeaconConsumer {
         beaconManager.enableForegroundServiceScanning(builder.build(),456)
         beaconManager.setEnableScheduledScanJobs(false)
         beaconManager.backgroundBetweenScanPeriod = 0
-        beaconManager.backgroundScanPeriod = 1100
+        beaconManager.backgroundScanPeriod = 5100
         beaconManager.foregroundBetweenScanPeriod = 0
-        beaconManager.foregroundScanPeriod = 1100
+        beaconManager.foregroundScanPeriod = 5100
         beaconManager.bind(this)
+        val pref = getSharedPreferences("Distance",Context.MODE_PRIVATE)
+        var uuid : String
+        if(pref.getString("UUID","NOTFOUND").equals("NOTFOUND")){
+            uuid = UUID.randomUUID().toString()
+            getSharedPreferences("Distance", Context.MODE_PRIVATE).edit().apply {
+                putString("UUID",uuid)
+                commit()
+            }
+        }
+        else{
+            uuid = pref.getString("UUID","NOTFOUND").toString()
+        }
+
+        val calender = Calendar.getInstance()
+        val today = calender.get(Calendar.DAY_OF_MONTH)
+        if(today!=pref.getInt("today",0)) {
+            getSharedPreferences("Distance", Context.MODE_PRIVATE).edit().apply {
+                putInt("today",today)
+                clearUUID()
+                commit()
+            }
+        }
+
+
         beacon = Beacon.Builder()
-                .setId1("2f234454-cf6d-4a0f-adf2-f4911ba9ffa6")
+                .setId1(uuid)
                 .setId2("1")
                 .setId3("2")
                 .setManufacturer(0x0118)
                 .setTxPower(-59)
                 .setDataFields(Arrays.asList(0))
                 .build()
+
+        getSharedPreferences("Distance", Context.MODE_PRIVATE).edit().apply {
+            putFloat("distance",30.toFloat())
+            putInt("surroundings",0)
+            commit()
+        }
 
 
         ///////////////////////////////////////////////////ビーコン
@@ -101,39 +132,91 @@ class MainActivity : AppCompatActivity(),BootstrapNotifier,BeaconConsumer {
     }
 
 
+    //UUIDをデータに加える。重複があれば加えない。その日の接触者とかに使う。
+    fun addUUID(uuid : String){
+        val pref = getSharedPreferences("Distance",Context.MODE_PRIVATE)
+        val size = pref.getInt("num_of_contact",0)
+        for(i in 0..size){
+            if(pref.getString("contact$i","").equals(uuid)){
+                return
+            }
+        }
+        getSharedPreferences("Distance", Context.MODE_PRIVATE).edit().apply {
+            Log.d(TAG,"UUIDを追加します")
+            putString("contact$size",uuid)
+            putInt("num_of_contact",size+1)
+            commit()
+        }
+    }
 
+    //UUIDをデータから削除する。リセットする。
+    fun clearUUID(){
+        val pref = getSharedPreferences("Distance",Context.MODE_PRIVATE)
+        val size = pref.getInt("num_of_contact",0)
+        for(i in 0..size){
+            getSharedPreferences("Distance", Context.MODE_PRIVATE).edit().apply {
+                putString("contact$i","")
+                commit()
+            }
+        }
+        getSharedPreferences("Distance", Context.MODE_PRIVATE).edit().apply {
+            putInt("num_of_contact",0)
+            commit()
+        }
+    }
+
+    //領域に出入りした時に呼ばれる。
     override fun didDetermineStateForRegion(p0: Int, p1: Region?) {
         Log.d(TAG,"didD")
     }
 
+    //領域を入ったときに呼ばれる
     @NeedsPermission(Manifest.permission.FOREGROUND_SERVICE,Manifest.permission.ACCESS_BACKGROUND_LOCATION)
     override fun didEnterRegion(p0: Region?) {
         Log.d(TAG,"didEnter")
         beaconManager.startRangingBeaconsInRegion(region)
     }
 
+    //領域を出たときに呼ばれる
     @NeedsPermission(Manifest.permission.FOREGROUND_SERVICE,Manifest.permission.ACCESS_BACKGROUND_LOCATION)
     override fun didExitRegion(p0: Region?) {
         Log.d(TAG,"didExit")
         beaconManager.stopRangingBeaconsInRegion(region)
-    }
-
-
-    @NeedsPermission(Manifest.permission.FOREGROUND_SERVICE,Manifest.permission.ACCESS_BACKGROUND_LOCATION)
-    override fun onBeaconServiceConnect() {
-        Log.d("bicon","conect"  )
-        beaconManager.addRangeNotifier { beacons, _ ->
-            for(beacon in beacons) {
-                val tx= "UUID:${beacon.id1}\n"+"Accuracy（距離）: ${floor(beacon.distance * 100) /100}m\n"
-                Log.d(TAG,tx)
-                getSharedPreferences("Distance", Context.MODE_PRIVATE).edit().apply {
-                    putFloat("distance",beacon.distance.toFloat())
-                    commit()
-                }
-
-            }
+        getSharedPreferences("Distance", Context.MODE_PRIVATE).edit().apply {
+            putFloat("distance",30.toFloat())
+            putInt("surroundings",0)
+            commit()
         }
     }
+
+
+    //領域内にいるときに継続してよばれる。
+    @NeedsPermission(Manifest.permission.FOREGROUND_SERVICE,Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+    override fun onBeaconServiceConnect() {
+        beaconManager.addRangeNotifier { beacons, _ ->
+            var distance : Float = 30.0.toFloat()
+            var cnt :Int = 0
+            for(beacon in beacons) {
+                if(distance > beacon.distance.toFloat())distance = beacon.distance.toFloat()
+                if(beacon.distance<2.0){
+                    cnt = cnt + 1
+                    addUUID(beacon.id1.toString())
+
+                }
+                Log.d(TAG,"距離: "+beacon.distance.toString()+" UUID："+beacon.id1.toString())
+            }
+            getSharedPreferences("Distance", Context.MODE_PRIVATE).edit().apply {
+                putFloat("distance",distance)
+                putInt("surroundings",cnt)
+                commit()
+            }
+            val pref = getSharedPreferences("Distance",Context.MODE_PRIVATE)
+            Log.d(TAG,"今日接触した人数:"+pref.getInt("num_of_contact",0).toString()
+                    +" 周囲の人: "+ pref.getInt("surroundings",0)+"最も近い距離: "+
+                    pref.getFloat("distance",100.0.toFloat()))
+        }
+    }
+
     @RequiresApi(Build.VERSION_CODES.Q)
     private fun requestPermission() {
         val permissionAccessCoarseLocationApproved =
