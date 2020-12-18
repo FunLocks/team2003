@@ -26,6 +26,8 @@ import android.os.Handler
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import org.altbeacon.beacon.*
 import org.altbeacon.beacon.startup.BootstrapNotifier
 import org.altbeacon.beacon.startup.RegionBootstrap
@@ -49,7 +51,7 @@ class MainActivity : AppCompatActivity(),BootstrapNotifier,BeaconConsumer {
     
 //    class MainActivity : AppCompatActivity() {
 
-    var serifBox = listOf("おはよう", "こんにちは", "おやすみ", "やれんのか小人共2020", "FunLocks")
+    var serifBox = listOf("余は災いを払うべく生を得たのじゃ", "間合いに気を使うのじゃ", "手洗いうがいは出来ておるか？", "そーしゃるでぃすたんすを心得よ", "達者そうよの")
 
     @RequiresApi(Build.VERSION_CODES.Q)
     @NeedsPermission(Manifest.permission.FOREGROUND_SERVICE, Manifest.permission.ACCESS_BACKGROUND_LOCATION)
@@ -81,7 +83,7 @@ class MainActivity : AppCompatActivity(),BootstrapNotifier,BeaconConsumer {
 
 
         text_share.setOnClickListener {
-            share(decorView, "test")
+            share(decorView, "アマビエの様子")
 //            val builder = ShareCompat.IntentBuilder.from(this)
 //            builder.setText("Test")
 //            builder.setSubject("")
@@ -92,8 +94,8 @@ class MainActivity : AppCompatActivity(),BootstrapNotifier,BeaconConsumer {
         beaconManager = BeaconManager.getInstanceForApplication(this)
         beaconManager.beaconParsers.add(BeaconParser().setBeaconLayout(ALTBEACON_FORMAT))
         builder = Notification.Builder(this, CHANNEL_ID)
-        builder.setSmallIcon(R.drawable.ic_launcher_foreground)
-        builder.setContentTitle("ビーコン探索").setContentText("ビーコン探索中")
+        builder.setSmallIcon(R.drawable.app_icon)
+        builder.setContentTitle("AmabieProject").setContentText("こびと探索中")
         var intent = Intent(this, MainActivity::class.java)
         var pendingIntent = PendingIntent.getActivity(
                 this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
@@ -141,6 +143,7 @@ class MainActivity : AppCompatActivity(),BootstrapNotifier,BeaconConsumer {
         getSharedPreferences("Distance", Context.MODE_PRIVATE).edit().apply {
             putFloat("distance", 30.toFloat())
             putInt("surroundings", 0)
+            putBoolean("notified",false)
             commit()
         }
 
@@ -226,6 +229,7 @@ class MainActivity : AppCompatActivity(),BootstrapNotifier,BeaconConsumer {
         }
         getSharedPreferences("Distance", Context.MODE_PRIVATE).edit().apply {
             putInt("num_of_contact", 0)
+            putBoolean("notified",false)
             commit()
         }
     }
@@ -261,21 +265,43 @@ class MainActivity : AppCompatActivity(),BootstrapNotifier,BeaconConsumer {
         beaconManager.addRangeNotifier { beacons, _ ->
             var distance: Float = 30.0.toFloat()
             var cnt: Int = 0
+            var notify = false
             for (beacon in beacons) {
                 if (distance > beacon.distance.toFloat()) distance = beacon.distance.toFloat()
                 if (beacon.distance < 2.0) {
                     cnt = cnt + 1
                     addUUID(beacon.id1.toString())
-
+                    notify = true
                 }
                 Log.d(TAG, "距離: " + beacon.distance.toString() + " UUID：" + beacon.id1.toString())
+            }
+            var pref = getSharedPreferences("Distance", Context.MODE_PRIVATE)
+            Log.d("通知の",notify.toString()+pref.getBoolean("notified",false).toString())
+            if((!pref.getBoolean("notified",false))&&notify){
+                Log.d(TAG,"ここで通知を出す")
+                //近いのでここで通知を出す
+                var intent = Intent(this, MainActivity::class.java)
+                var pendingIntent = PendingIntent.getActivity(
+                        this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+                var contactbuilder = NotificationCompat.Builder(this, CHANNEL_ID)
+                    contactbuilder
+                        .setSmallIcon(R.drawable.app_icon)
+                        .setContentTitle("AmabieProject")
+                        .setContentText("近くに人がいるみたいじゃの。\n" +
+                                "ソーシャルディスタンスを守るのじゃ！")
+                        .setAutoCancel(true)
+                        .setContentIntent(pendingIntent)
+                        .priority = NotificationCompat.PRIORITY_DEFAULT
+                val notificationManager = NotificationManagerCompat.from(this)
+                notificationManager.notify(1001,contactbuilder.build())
             }
             getSharedPreferences("Distance", Context.MODE_PRIVATE).edit().apply {
                 putFloat("distance", distance)
                 putInt("surroundings", cnt)
+                putBoolean("notified",notify)
                 commit()
             }
-            val pref = getSharedPreferences("Distance", Context.MODE_PRIVATE)
+            pref = getSharedPreferences("Distance", Context.MODE_PRIVATE)
             Log.d(TAG, "今日接触した人数:" + pref.getInt("num_of_contact", 0).toString()
                     + " 周囲の人: " + pref.getInt("surroundings", 0) + "最も近い距離: " +
                     pref.getFloat("distance", 100.0.toFloat()))
