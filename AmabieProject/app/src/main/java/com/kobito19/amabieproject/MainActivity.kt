@@ -279,6 +279,9 @@ class MainActivity : AppCompatActivity(),BootstrapNotifier,BeaconConsumer {
             Log.d(TAG, "今日接触した人数:" + pref.getInt("num_of_contact", 0).toString()
                     + " 周囲の人: " + pref.getInt("surroundings", 0) + "最も近い距離: " +
                     pref.getFloat("distance", 100.0.toFloat()))
+            val tv = findViewById<TextView>(R.id.consoleText)
+            var countPeople = pref.getInt("srroundings", 0).toString()
+            tv.text = countPeople
             
         }
     }
