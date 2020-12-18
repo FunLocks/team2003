@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@drawable/background">
 
     <LinearLayout
         android:id="@+id/allLayout"
@@ -13,25 +14,25 @@
         android:orientation="vertical"
         tools:ignore="MissingConstraints">
 
-<!--        <RelativeLayout-->
-<!--            android:id="@+id/gif"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="400dp">-->
+        <RelativeLayout
+            android:id="@+id/gif"
+            android:layout_width="match_parent"
+            android:layout_height="400dp">
 
-<!--            <Button-->
-<!--                android:id="@+id/changeText"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:onClick="chengText"-->
-<!--                android:text="ChangeText"-->
-<!--                tools:ignore="MissingConstraints" />-->
+            <Button
+                android:id="@+id/changeText"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:background="#00000000"
+                android:onClick="chengText"
+                tools:ignore="MissingConstraints" />
 
             <ImageView
                 android:id="@+id/gifView"
                 android:layout_width="match_parent"
                 android:layout_height="400dp"
                 android:contentDescription="@string/gif" />
-<!--        </RelativeLayout>-->
+        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/consoleView"
