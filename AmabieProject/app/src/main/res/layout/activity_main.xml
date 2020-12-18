@@ -6,46 +6,43 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/changeText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="chengText"
-        android:text="ChangeText"
-        tools:ignore="MissingConstraints" />
-
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="346.9dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="32.05dp"
-        android:layout_marginLeft="32.05dp"
-        android:layout_marginEnd="32.05dp"
-        android:layout_marginRight="32.05dp"
-        android:layout_marginBottom="51dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        tools:ignore="MissingConstraints">
 
-        <ImageView
-            android:id="@+id/gifView"
-            android:layout_width="304dp"
-            android:layout_height="251dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="56dp" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="400dp">
+
+            <Button
+                android:id="@+id/changeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="chengText"
+                android:text="ChangeText"
+                tools:ignore="MissingConstraints" />
+
+            <ImageView
+                android:id="@+id/gifView"
+                android:layout_width="match_parent"
+                android:layout_height="400dp" />
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="120dp">
 
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
+                android:layout_marginStart="32.05dp"
+                android:layout_marginLeft="32.05dp"
+                android:layout_marginEnd="32.05dp"
+                android:layout_marginRight="32.05dp"
                 android:gravity="left"
                 android:src="@drawable/serifu_view"
                 tools:ignore="MissingConstraints" />
@@ -53,13 +50,13 @@
 
             <TextView
                 android:id="@+id/selif_text"
-                android:layout_width="253dp"
+                android:layout_width="230dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
-                android:layout_marginLeft="50dp"
+                android:layout_marginStart="80dp"
+                android:layout_marginLeft="80dp"
                 android:layout_marginTop="30dp"
-                android:layout_marginEnd="50dp"
-                android:layout_marginRight="50dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginRight="30dp"
                 android:fontFamily="@font/hanamina"
                 android:text="謹んで新春のお慶び申し上げます"
                 android:textColor="@color/black"
@@ -70,42 +67,62 @@
 
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="33dp"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginEnd="32.05dp"
+            android:layout_marginRight="32.05dp"
             android:orientation="horizontal">
             <!--            android:background="#ffffff"-->
             <!--            app:srcCompat="@drawable/share_icon" -->
 
-            <TextView
-                android:layout_width="122.38dp"
+
+            <RelativeLayout
+                android:layout_width="123dp"
                 android:layout_height="120dp"
-                android:background="@drawable/frame_style"
-                android:text="TextView" />
+                android:layout_marginStart="32.05dp"
+                android:layout_marginLeft="32.05dp">
 
-            <ImageButton
-                android:id="@+id/share_button"
-                android:layout_width="84.95dp"
-                android:layout_height="85dp"
-                android:layout_gravity="bottom|center_horizontal"
-                android:layout_marginStart="27.31dp"
-                android:layout_marginLeft="27.31dp"
-                android:layout_weight="0"
-                android:background="@null"
-                android:orientation="horizontal"
-                android:src="@drawable/share_icon" />
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="122.38dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/today_view" />
 
-            <ImageButton
-                android:id="@+id/setting_button"
-                android:layout_width="82.95dp"
-                android:layout_height="85dp"
-                android:layout_gravity="bottom|center_horizontal"
-                android:layout_marginStart="27.31dp"
-                android:layout_marginLeft="27.31dp"
-                android:layout_weight="0"
-                android:background="@null"
-                android:onClick="onClickSetting"
-                app:srcCompat="@drawable/setting_icon" />
+                <TextView
+                    android:layout_width="122.38dp"
+                    android:layout_height="120dp"
+                    android:gravity="center"
+                    android:text="TextView" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/share_button"
+                    android:layout_width="84.95dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="0"
+                    android:background="@null"
+                    android:orientation="horizontal"
+                    android:src="@drawable/share_icon" />
+
+                <ImageButton
+                    android:id="@+id/setting_button"
+                    android:layout_width="84.95dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="0"
+                    android:background="@null"
+                    android:onClick="onClickSetting"
+                    app:srcCompat="@drawable/setting_icon" />
+            </LinearLayout>
 
             <!--        <Button-->
             <!--            android:id="@+id/share_button"-->
