@@ -46,8 +46,7 @@ class MainActivity : AppCompatActivity(),BootstrapNotifier,BeaconConsumer {
     private lateinit var beaconManager: BeaconManager
     private var region = Region("all-beacons-region", null, null, null)
     private lateinit var regionBootstrap: RegionBootstrap
-
-
+    
 //    class MainActivity : AppCompatActivity() {
 
     var serifBox = listOf("おはよう", "こんにちは", "おやすみ", "やれんのか小人共2020", "FunLocks")
