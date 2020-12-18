@@ -12,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.content.Intent
 import android.view.View
+import android.widget.ImageView
+import com.bumptech.glide.Glide
 import android.Manifest
 import android.app.Notification
 import android.app.NotificationChannel
@@ -32,7 +34,6 @@ import org.altbeacon.beacon.startup.RegionBootstrap
 import permissions.dispatcher.NeedsPermission
 import java.util.*
 import kotlin.math.floor
-
 
 class MainActivity : AppCompatActivity(),BootstrapNotifier,BeaconConsumer {
     companion object {
@@ -57,6 +58,24 @@ class MainActivity : AppCompatActivity(),BootstrapNotifier,BeaconConsumer {
         createNotificationChannel()
         val decorView: View = window.decorView
         var text_share = findViewById<TextView>(R.id.share_button)
+
+        var i = 0
+        var gifMovie: Int = R.raw.ldle
+        val gifView = findViewById<ImageView>(R.id.gifView)
+        val amabieList = listOf(R.raw.ldle, R.raw.walk_l, R.raw.walk_r)
+        if(i % 2 == 0/* 怒り */){
+            gifMovie = R.raw.angry_2
+            i += 1
+        } else if( i % 5 == 0 /*スマイル*/){
+            gifMovie = R.raw.smile_2
+            i += 1
+        } else {
+            gifMovie = amabieList[(0..2).random()]
+            i += 1
+        }
+        Glide.with(this).load(gifMovie).into(gifView)
+
+
 
         text_share.setOnClickListener{
             share(decorView, "test")
