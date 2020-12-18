@@ -20,7 +20,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/amabie_icon"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AmabieProject">
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
         <activity android:name=".tool"></activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

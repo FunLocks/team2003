@@ -22,6 +22,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
+import android.os.Handler
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
@@ -178,6 +179,9 @@ class MainActivity : AppCompatActivity(),BootstrapNotifier,BeaconConsumer {
                 }
                 Glide.with(tmp).load(gifMovie).into(gifView)
                 //Log.d(TAG,"このタイミングでアマビエを更新します。")
+                val tv = findViewById<TextView>(R.id.todayText)
+                var count = pref.getInt("num_of_contact", 0).toString()
+                tv.text = count
                 handler.postDelayed(this,2000)
             }
         }
@@ -275,9 +279,6 @@ class MainActivity : AppCompatActivity(),BootstrapNotifier,BeaconConsumer {
                     + " 周囲の人: " + pref.getInt("surroundings", 0) + "最も近い距離: " +
                     pref.getFloat("distance", 100.0.toFloat()))
             
-            val tv = findViewById<TextView>(R.id.todayText)
-            var count = pref.getInt("surroundings", 0).toString()
-            tv.text = count
         }
     }
 
