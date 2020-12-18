@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
         val decorView: View = window.decorView
         var text_share = findViewById<ImageButton>(R.id.share_button)
 
+
         text_share.setOnClickListener{
             share(decorView, "test")
 //            val builder = ShareCompat.IntentBuilder.from(this)

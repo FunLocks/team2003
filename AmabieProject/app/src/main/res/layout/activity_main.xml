@@ -37,20 +37,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
                 android:gravity="left"
-                android:src="@drawable/serif_view"
+                android:src="@drawable/serifu_view"
                 tools:ignore="MissingConstraints" />
 
 
             <TextView
                 android:id="@+id/selif_text"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:layout_marginStart="15dp"
-                android:layout_marginLeft="15dp"
-                android:textSize="10pt"
+                android:layout_width="253dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="50dp"
+                android:layout_marginRight="50dp"
+                android:fontFamily="@font/hanamina"
+                android:text="謹んで新春のお慶び申し上げます"
                 android:textColor="@color/black"
-                android:text="ここにセリフが表示されます。多分きっとメイビー"
-                />
+                android:textSize="8pt" />
 
 
 
