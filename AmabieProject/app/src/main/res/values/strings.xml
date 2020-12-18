@@ -5,5 +5,7 @@
 
     <string name="title_activity_maps">Map</string>
     <string name="image">image</string>
+    <string name="gif">gif</string>
+    <string name="backgroud">backgroud</string>
 
 </resources>
