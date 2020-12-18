@@ -46,8 +46,7 @@ class MainActivity : AppCompatActivity(),BootstrapNotifier,BeaconConsumer {
     private lateinit var beaconManager: BeaconManager
     private var region = Region("all-beacons-region", null, null, null)
     private lateinit var regionBootstrap: RegionBootstrap
-
-
+    
 //    class MainActivity : AppCompatActivity() {
 
     var serifBox = listOf("おはよう", "こんにちは", "おやすみ", "やれんのか小人共2020", "FunLocks")
@@ -165,17 +164,19 @@ class MainActivity : AppCompatActivity(),BootstrapNotifier,BeaconConsumer {
                 var gifMovie: Int = R.raw.ldle
                 val gifView = findViewById<ImageView>(R.id.gifView)
                 val amabieList = listOf(R.raw.ldle, R.raw.walk_l, R.raw.walk_r)
+                val amabieAngry = listOf(R.raw.angry_1, R.raw.angry_2, R.raw.angrywalk_l, R.raw.angrywalk_r)
+                val amabieSmile = listOf(R.raw.smile_1, R.raw.smile_2, R.raw.smilewalk_l, R.raw.smilewalk_r)
                 if (distance <2.0/* 怒り */) {
-                    gifMovie = R.raw.angry_2
+                    var angryRandom = (0..3).random()
+                    gifMovie = amabieAngry[angryRandom]
                 } else if (distance < 5.0) {
                     gifMovie = R.raw.ldle
                 } else if( distance < 30.0){
-                    gifMovie = R.raw.smile_1
+                    var smileRandom = (0..3).random()
+                    gifMovie = amabieSmile[smileRandom]
                 } else {
                     if((0..1).random()==0)gifMovie = R.raw.walk_l
                     else gifMovie = R.raw.walk_r
-
-
                 }
                 Glide.with(tmp).load(gifMovie).into(gifView)
                 //Log.d(TAG,"このタイミングでアマビエを更新します。")
@@ -367,8 +368,12 @@ class MainActivity : AppCompatActivity(),BootstrapNotifier,BeaconConsumer {
     }
   
     fun chengText(view: View) {
-            val serif = findViewById<TextView>(R.id.consoleText)
-            var randomText = serifBox[(0..4).random()]
-            serif.text = randomText
+        val serif = findViewById<TextView>(R.id.consoleText)
+        var randomText = serifBox[(0..4).random()]
+        serif.text = randomText
+        var gifMovie: Int = R.raw.touch
+        val gifView = findViewById<ImageView>(R.id.gifView)
+        Glide.with(this).load(gifMovie).into(gifView)
+
     }
 }
