@@ -6,20 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <ImageView
-        android:id="@+id/gifView"
-        android:layout_width="304dp"
-        android:layout_height="251dp"
-        android:layout_marginBottom="56dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.125"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <Button
         android:id="@+id/changeText"
         android:layout_width="wrap_content"
@@ -31,7 +17,7 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="346.9dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="32.05dp"
         android:layout_marginLeft="32.05dp"
         android:layout_marginEnd="32.05dp"
@@ -41,6 +27,16 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/gifView"
+            android:layout_width="304dp"
+            android:layout_height="251dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="56dp" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -70,8 +66,6 @@
                 android:textSize="8pt" />
 
 
-
-
         </RelativeLayout>
 
 
@@ -97,10 +91,9 @@
                 android:layout_marginStart="27.31dp"
                 android:layout_marginLeft="27.31dp"
                 android:layout_weight="0"
-                android:orientation="horizontal"
-                android:src="@drawable/share_icon"
                 android:background="@null"
-                />
+                android:orientation="horizontal"
+                android:src="@drawable/share_icon" />
 
             <ImageButton
                 android:id="@+id/setting_button"
@@ -110,10 +103,9 @@
                 android:layout_marginStart="27.31dp"
                 android:layout_marginLeft="27.31dp"
                 android:layout_weight="0"
-                android:onClick="onClickSetting"
-                app:srcCompat="@drawable/setting_icon"
                 android:background="@null"
-                />
+                android:onClick="onClickSetting"
+                app:srcCompat="@drawable/setting_icon" />
 
             <!--        <Button-->
             <!--            android:id="@+id/share_button"-->
