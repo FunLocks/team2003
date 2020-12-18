@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="30dp"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -13,25 +14,25 @@
         android:orientation="vertical"
         tools:ignore="MissingConstraints">
 
-<!--        <RelativeLayout-->
-<!--            android:id="@+id/gif"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="400dp">-->
+        <!--        <RelativeLayout-->
+        <!--            android:id="@+id/gif"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="400dp">-->
 
-<!--            <Button-->
-<!--                android:id="@+id/changeText"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:onClick="chengText"-->
-<!--                android:text="ChangeText"-->
-<!--                tools:ignore="MissingConstraints" />-->
+        <!--            <Button-->
+        <!--                android:id="@+id/changeText"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:onClick="chengText"-->
+        <!--                android:text="ChangeText"-->
+        <!--                tools:ignore="MissingConstraints" />-->
 
-            <ImageView
-                android:id="@+id/gifView"
-                android:layout_width="match_parent"
-                android:layout_height="400dp"
-                android:contentDescription="@string/gif" />
-<!--        </RelativeLayout>-->
+        <ImageView
+            android:id="@+id/gifView"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:contentDescription="@string/gif" />
+        <!--        </RelativeLayout>-->
 
         <RelativeLayout
             android:id="@+id/consoleView"
@@ -42,10 +43,7 @@
                 android:id="@+id/consoleBack"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
-                android:layout_marginStart="32.05dp"
-                android:layout_marginLeft="32.05dp"
-                android:layout_marginEnd="32.05dp"
-                android:layout_marginRight="32.05dp"
+
                 android:gravity="left"
                 android:src="@drawable/serifu_view"
                 tools:ignore="ContentDescription,MissingConstraints,RtlHardcoded" />
@@ -55,7 +53,7 @@
                 android:id="@+id/consoleText"
                 android:layout_width="230dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="80dp"
+                android:layout_marginStart="60dp"
                 android:layout_marginLeft="80dp"
                 android:layout_marginTop="30dp"
                 android:layout_marginEnd="30dp"
@@ -73,27 +71,21 @@
         <LinearLayout
             android:id="@+id/bottomLayer"
             android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:layout_marginEnd="32.05dp"
-            android:layout_marginRight="32.05dp"
-            android:orientation="horizontal">
+            android:layout_height="152dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginRight="0dp"
+            android:orientation="horizontal"
+            android:layout_marginLeft="30dp">
             <!--            android:background="#ffffff"-->
             <!--            app:srcCompat="@drawable/share_icon" -->
 
 
             <RelativeLayout
                 android:id="@+id/todayView"
-                android:layout_width="123dp"
-                android:layout_height="120dp"
-                android:layout_marginStart="32.05dp"
-                android:layout_marginLeft="32.05dp">
-
-                <ImageView
-                    android:id="@+id/todayImage"
-                    android:layout_width="122.38dp"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/today_view"
-                    tools:ignore="ContentDescription" />
+                android:layout_width="156dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="0dp"
+                android:layout_marginLeft="0dp">
 
                 <TextView
                     android:id="@+id/todayText"
@@ -101,13 +93,22 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:layout_marginLeft="30dp"
-                    android:layout_marginTop="60dp"
+                    android:layout_marginTop="80dp"
                     android:layout_marginEnd="50dp"
                     android:layout_marginRight="50dp"
                     android:gravity="right|top"
                     android:text="0"
                     android:textSize="15pt"
                     tools:ignore="HardcodedText" />
+
+                <ImageView
+                    android:id="@+id/todayImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    android:scaleType="fitXY"
+                    android:src="@drawable/today_view"
+                    tools:ignore="ContentDescription" />
 
             </RelativeLayout>
 
@@ -119,25 +120,30 @@
 
                 <ImageButton
                     android:id="@+id/share_button"
-                    android:layout_width="84.95dp"
-                    android:layout_height="35dp"
+                    android:layout_width="100.95dp"
+                    android:layout_height="70dp"
                     android:layout_gravity="bottom|center_horizontal"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="0"
+                    android:layout_marginLeft="-10dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_weight="5"
                     android:background="@null"
                     android:orientation="horizontal"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/share_icon"
                     tools:ignore="ContentDescription" />
 
                 <ImageButton
                     android:id="@+id/setting_button"
-                    android:layout_width="84.95dp"
-                    android:layout_height="35dp"
+                    android:layout_width="99.95dp"
+                    android:layout_height="60dp"
                     android:layout_gravity="bottom|center_horizontal"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="0"
+                    android:layout_marginLeft="-10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="0dp"
+                    android:layout_weight="5"
                     android:background="@null"
                     android:onClick="onClickSetting"
+                    android:scaleType="centerCrop"
                     app:srcCompat="@drawable/setting_icon"
                     tools:ignore="ContentDescription" />
             </LinearLayout>
