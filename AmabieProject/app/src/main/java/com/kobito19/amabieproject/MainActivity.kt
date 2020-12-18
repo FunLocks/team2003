@@ -95,11 +95,12 @@ class MainActivity : AppCompatActivity(),BootstrapNotifier,BeaconConsumer {
         var pendingIntent = PendingIntent.getActivity(
                 this,0,intent,PendingIntent.FLAG_UPDATE_CURRENT)
         builder.setContentIntent(pendingIntent)
+        //beaconManager.disableForegroundServiceScanning()
         beaconManager.enableForegroundServiceScanning(builder.build(),456)
         beaconManager.setEnableScheduledScanJobs(false)
-        beaconManager.backgroundBetweenScanPeriod = 0
+        beaconManager.backgroundBetweenScanPeriod = 100
         beaconManager.backgroundScanPeriod = 5100
-        beaconManager.foregroundBetweenScanPeriod = 0
+        beaconManager.foregroundBetweenScanPeriod = 100
         beaconManager.foregroundScanPeriod = 5100
         beaconManager.bind(this)
         val pref = getSharedPreferences("Distance",Context.MODE_PRIVATE)
