@@ -16,7 +16,7 @@ AmabieProject
 アマビエが周囲の情報に反応してリアクションしたり、喋ったりする
 
 ### スクリーンショット(任意)
-
+<img src="https://user-images.githubusercontent.com/17905349/102667875-d4d8a100-41cd-11eb-8bce-4410ca49a3ac.png" width="480">
 ## 開発体制
 ### 役割分担
 SS共有機能・UI　石井滉一
