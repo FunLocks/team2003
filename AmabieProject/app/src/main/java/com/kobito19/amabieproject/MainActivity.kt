@@ -25,12 +25,14 @@ import android.os.Handler
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationManagerCompat
 import org.altbeacon.beacon.*
 import org.altbeacon.beacon.startup.BootstrapNotifier
 import org.altbeacon.beacon.startup.RegionBootstrap
 import permissions.dispatcher.NeedsPermission
 import java.util.*
 import kotlin.math.floor
+
 
 class MainActivity : AppCompatActivity(),BootstrapNotifier,BeaconConsumer {
     companion object {
@@ -44,6 +46,7 @@ class MainActivity : AppCompatActivity(),BootstrapNotifier,BeaconConsumer {
     private lateinit var beacon : Beacon
     private lateinit var beaconManager: BeaconManager
     private var region = Region("all-beacons-region",null,null,null)
+    private lateinit var regionBootstrap : RegionBootstrap
 
     @RequiresApi(Build.VERSION_CODES.Q)
     @NeedsPermission(Manifest.permission.FOREGROUND_SERVICE,Manifest.permission.ACCESS_BACKGROUND_LOCATION)
@@ -125,13 +128,19 @@ class MainActivity : AppCompatActivity(),BootstrapNotifier,BeaconConsumer {
 
     override fun onStart() {
         super.onStart()
-        var regionBootstrap = RegionBootstrap(this,region)
+        regionBootstrap = RegionBootstrap(this,region)
         beaconManager.startRangingBeaconsInRegion(region)
         val beaconTransmitter = BeaconTransmitter(applicationContext, BeaconParser().setBeaconLayout(ALTBEACON_FORMAT))
         beaconTransmitter.startAdvertising(beacon)
     }
 
 
+    //アプリのタスクを切った時に呼ばれる
+    override fun onDestroy() {
+        super.onDestroy()
+        beaconManager.unbind(this)
+        regionBootstrap.disable()
+    }
     //UUIDをデータに加える。重複があれば加えない。その日の接触者とかに使う。
     fun addUUID(uuid : String){
         val pref = getSharedPreferences("Distance",Context.MODE_PRIVATE)
@@ -252,6 +261,7 @@ class MainActivity : AppCompatActivity(),BootstrapNotifier,BeaconConsumer {
         }
     }
 
+    //通知用のチャンネルを作る
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
