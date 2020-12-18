@@ -4,7 +4,6 @@ import android.app.Activity
 import android.graphics.Bitmap
 import android.net.Uri
 import android.widget.TextView
-import androidx.core.app.ShareCompat
 import androidx.core.content.FileProvider
 import java.io.File
 import java.io.FileOutputStream
@@ -22,19 +21,15 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.pm.PackageManager
-import android.nfc.Tag
 import android.os.Build
-import android.os.Handler
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
-import androidx.core.app.NotificationManagerCompat
 import org.altbeacon.beacon.*
 import org.altbeacon.beacon.startup.BootstrapNotifier
 import org.altbeacon.beacon.startup.RegionBootstrap
 import permissions.dispatcher.NeedsPermission
 import java.util.*
-import kotlin.math.floor
 
 class MainActivity : AppCompatActivity(),BootstrapNotifier,BeaconConsumer {
     companion object {
@@ -339,7 +334,7 @@ class MainActivity : AppCompatActivity(),BootstrapNotifier,BeaconConsumer {
         }
 
         fun chengText(view: View) {
-            val serif = findViewById<TextView>(R.id.selif_text)
+            val serif = findViewById<TextView>(R.id.consoleText)
             var randomText = serifBox[(0..4).random()]
             serif.text = randomText
 

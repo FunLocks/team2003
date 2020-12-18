@@ -7,36 +7,39 @@
     tools:context=".MainActivity">
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/allLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         tools:ignore="MissingConstraints">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="400dp">
+<!--        <RelativeLayout-->
+<!--            android:id="@+id/gif"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="400dp">-->
 
-            <Button
-                android:id="@+id/changeText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="chengText"
-                android:text="ChangeText"
-                tools:ignore="MissingConstraints" />
+<!--            <Button-->
+<!--                android:id="@+id/changeText"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:onClick="chengText"-->
+<!--                android:text="ChangeText"-->
+<!--                tools:ignore="MissingConstraints" />-->
 
             <ImageView
                 android:id="@+id/gifView"
                 android:layout_width="match_parent"
-                android:layout_height="400dp" />
-        </RelativeLayout>
+                android:layout_height="400dp"
+                android:contentDescription="@string/gif" />
+<!--        </RelativeLayout>-->
 
         <RelativeLayout
+            android:id="@+id/consoleView"
             android:layout_width="wrap_content"
             android:layout_height="120dp">
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/consoleBack"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
                 android:layout_marginStart="32.05dp"
@@ -45,11 +48,11 @@
                 android:layout_marginRight="32.05dp"
                 android:gravity="left"
                 android:src="@drawable/serifu_view"
-                tools:ignore="MissingConstraints" />
+                tools:ignore="ContentDescription,MissingConstraints,RtlHardcoded" />
 
 
             <TextView
-                android:id="@+id/selif_text"
+                android:id="@+id/consoleText"
                 android:layout_width="230dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="80dp"
@@ -60,13 +63,15 @@
                 android:fontFamily="@font/hanamina"
                 android:text="謹んで新春のお慶び申し上げます"
                 android:textColor="@color/black"
-                android:textSize="8pt" />
+                android:textSize="8pt"
+                tools:ignore="HardcodedText" />
 
 
         </RelativeLayout>
 
 
         <LinearLayout
+            android:id="@+id/bottomLayer"
             android:layout_width="match_parent"
             android:layout_height="120dp"
             android:layout_marginEnd="32.05dp"
@@ -77,26 +82,36 @@
 
 
             <RelativeLayout
+                android:id="@+id/todayView"
                 android:layout_width="123dp"
                 android:layout_height="120dp"
                 android:layout_marginStart="32.05dp"
                 android:layout_marginLeft="32.05dp">
 
                 <ImageView
-                    android:id="@+id/imageView2"
+                    android:id="@+id/todayImage"
                     android:layout_width="122.38dp"
                     android:layout_height="match_parent"
-                    android:src="@drawable/today_view" />
+                    android:src="@drawable/today_view"
+                    tools:ignore="ContentDescription" />
 
                 <TextView
-                    android:layout_width="122.38dp"
-                    android:layout_height="120dp"
-                    android:gravity="center"
-                    android:text="TextView" />
+                    android:id="@+id/todayText"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="60dp"
+                    android:layout_marginEnd="50dp"
+                    android:layout_marginRight="50dp"
+                    android:text="12"
+                    android:textSize="15pt"
+                    tools:ignore="HardcodedText" />
 
             </RelativeLayout>
 
             <LinearLayout
+                android:id="@+id/buttonLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
@@ -110,7 +125,8 @@
                     android:layout_weight="0"
                     android:background="@null"
                     android:orientation="horizontal"
-                    android:src="@drawable/share_icon" />
+                    android:src="@drawable/share_icon"
+                    tools:ignore="ContentDescription" />
 
                 <ImageButton
                     android:id="@+id/setting_button"
@@ -121,7 +137,8 @@
                     android:layout_weight="0"
                     android:background="@null"
                     android:onClick="onClickSetting"
-                    app:srcCompat="@drawable/setting_icon" />
+                    app:srcCompat="@drawable/setting_icon"
+                    tools:ignore="ContentDescription" />
             </LinearLayout>
 
             <!--        <Button-->
