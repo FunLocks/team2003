@@ -84,7 +84,9 @@
                 android:layout_marginLeft="27.31dp"
                 android:layout_weight="0"
                 android:orientation="horizontal"
-                android:src="@drawable/share_icon" />
+                android:src="@drawable/share_icon"
+                android:background="@null"
+                />
 
             <ImageButton
                 android:id="@+id/setting_button"
@@ -95,7 +97,9 @@
                 android:layout_marginLeft="27.31dp"
                 android:layout_weight="0"
                 android:onClick="onClickSetting"
-                app:srcCompat="@drawable/setting" />
+                app:srcCompat="@drawable/setting_icon"
+                android:background="@null"
+                />
 
             <!--        <Button-->
             <!--            android:id="@+id/share_button"-->
