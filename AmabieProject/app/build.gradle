@@ -1,6 +1,7 @@
 plugins {
         id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -38,6 +39,14 @@ repositories {
 }
 
 dependencies {
+
+    def altbeacon_version = "2.17.1"
+    def broadcast_version = "1.0.0"
+    def permissionsDispatcher_version = "4.8.0"
+    implementation "org.altbeacon:android-beacon-library:$altbeacon_version"
+    implementation"androidx.localbroadcastmanager:localbroadcastmanager:$broadcast_version"
+    implementation"org.permissionsdispatcher:permissionsdispatcher:$permissionsDispatcher_version"
+    kapt"org.permissionsdispatcher:permissionsdispatcher-processor:$permissionsDispatcher_version"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'com.google.android.gms:play-services-location:17.0.0'
