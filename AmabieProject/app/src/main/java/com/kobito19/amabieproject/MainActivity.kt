@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.content.Intent
 import android.view.View
+import android.widget.ImageButton
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import android.Manifest
@@ -49,6 +50,10 @@ class MainActivity : AppCompatActivity(),BootstrapNotifier,BeaconConsumer {
     private var region = Region("all-beacons-region",null,null,null)
     private lateinit var regionBootstrap : RegionBootstrap
 
+class MainActivity : AppCompatActivity() {
+
+    var serifBox = listOf("おはよう", "こんにちは", "おやすみ", "やれんのか小人共2020", "FunLocks")
+
     @RequiresApi(Build.VERSION_CODES.Q)
     @NeedsPermission(Manifest.permission.FOREGROUND_SERVICE,Manifest.permission.ACCESS_BACKGROUND_LOCATION)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,7 +62,8 @@ class MainActivity : AppCompatActivity(),BootstrapNotifier,BeaconConsumer {
         setContentView(R.layout.activity_main)
         createNotificationChannel()
         val decorView: View = window.decorView
-        var text_share = findViewById<TextView>(R.id.share_button)
+        var text_share = findViewById<ImageButton>(R.id.share_button)
+
 
         var i = 0
         var gifMovie: Int = R.raw.ldle
@@ -327,5 +333,12 @@ class MainActivity : AppCompatActivity(),BootstrapNotifier,BeaconConsumer {
     fun onClickSetting(view: View) {
         val intent = Intent(this, SettingActivity::class.java)
         startActivity(intent)
+    }
+
+    fun chengText(view: View) {
+        val serif = findViewById<TextView>(R.id.selif_text)
+        var randomText = serifBox[(0..4).random()]
+        serif.text = randomText
+
     }
 }
