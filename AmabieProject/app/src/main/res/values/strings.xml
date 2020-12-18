@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">AmabieProject</string>
+
+    <string name="share_button">Share</string>
+
     <string name="title_activity_maps">Map</string>
+    <string name="image">image</string>
+    <string name="gif">gif</string>
+    <string name="backgroud">backgroud</string>
+
 </resources>

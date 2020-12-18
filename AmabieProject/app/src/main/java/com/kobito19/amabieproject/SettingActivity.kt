@@ -54,7 +54,7 @@ class SettingActivity : AppCompatActivity() {
 
     private fun displaySetting() {
     val pref = getSharedPreferences("my_settings", Context.MODE_PRIVATE)
-    val placeValue = pref.getString("placeValue", "")
+    val placeValue = pref.getString("placeValue", "未登録")
     val messageView: TextView = findViewById(R.id.textView)
     messageView.text = placeValue
     // switch debug
