@@ -51,7 +51,11 @@ class MainActivity : AppCompatActivity(),BootstrapNotifier,BeaconConsumer {
     
 //    class MainActivity : AppCompatActivity() {
 
-    var serifBox = listOf("余は災いを払うべく生を得たのじゃ", "間合いに気を使うのじゃ", "手洗いうがいは出来ておるか？", "そーしゃるでぃすたんすを心得よ", "達者そうよの")
+    var serifBox = listOf("余は災いを払うべく生を得たのじゃ"
+            , "間合いに気を使うのじゃ"
+            , "手洗いうがいは出来ておるか？"
+            , "そーしゃるでぃすたんすを心得よ"
+            , "達者そうよの")
 
     @RequiresApi(Build.VERSION_CODES.Q)
     @NeedsPermission(Manifest.permission.FOREGROUND_SERVICE, Manifest.permission.ACCESS_BACKGROUND_LOCATION)
@@ -95,7 +99,7 @@ class MainActivity : AppCompatActivity(),BootstrapNotifier,BeaconConsumer {
         beaconManager.beaconParsers.add(BeaconParser().setBeaconLayout(ALTBEACON_FORMAT))
         builder = Notification.Builder(this, CHANNEL_ID)
         builder.setSmallIcon(R.drawable.app_icon)
-        builder.setContentTitle("AmabieProject").setContentText("こびと探索中")
+        builder.setContentTitle("AmabieProject").setContentText("アマビエ探索中")
         var intent = Intent(this, MainActivity::class.java)
         var pendingIntent = PendingIntent.getActivity(
                 this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
@@ -169,17 +173,22 @@ class MainActivity : AppCompatActivity(),BootstrapNotifier,BeaconConsumer {
                 val amabieList = listOf(R.raw.ldle, R.raw.walk_l, R.raw.walk_r)
                 val amabieAngry = listOf(R.raw.angry_1, R.raw.angry_2, R.raw.angrywalk_l, R.raw.angrywalk_r)
                 val amabieSmile = listOf(R.raw.smile_1, R.raw.smile_2, R.raw.smilewalk_l, R.raw.smilewalk_r)
+                val serif = findViewById<TextView>(R.id.consoleText)
                 if (distance <2.0/* 怒り */) {
                     var angryRandom = (0..3).random()
                     gifMovie = amabieAngry[angryRandom]
+                    serif.setText("近すぎじゃぞ。ちかくに"+surroundings.toString()+"人おる。")
                 } else if (distance < 5.0) {
                     gifMovie = R.raw.ldle
-                } else if( distance < 30.0){
+                    serif.setText("近くにアマビエがおるの。")
+                } else if( distance < 31.0){
                     var smileRandom = (0..3).random()
                     gifMovie = amabieSmile[smileRandom]
+                    serif.setText("近くにアマビエはいないようじゃ。")
                 } else {
                     if((0..1).random()==0)gifMovie = R.raw.walk_l
                     else gifMovie = R.raw.walk_r
+                    serif.setText("アマビエ探索中じゃ。")
                 }
                 Glide.with(tmp).load(gifMovie).into(gifView)
                 //Log.d(TAG,"このタイミングでアマビエを更新します。")
