@@ -79,7 +79,7 @@
                 android:layout_marginEnd="30dp"
                 android:layout_marginRight="30dp"
                 android:fontFamily="@font/hanamina"
-                android:text="謹んで新春のお慶び申し上げます"
+                android:text="調子はどうじゃ？"
                 android:textColor="@color/black"
                 android:textSize="8pt"
                 tools:ignore="HardcodedText" />
