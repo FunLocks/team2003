@@ -1,38 +1,36 @@
 package com.kobito19.amabieproject
 
-import android.app.Activity
+import android.Manifest
+import android.app.*
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
-import android.widget.TextView
-import androidx.core.content.FileProvider
-import java.io.File
-import java.io.FileOutputStream
-import androidx.appcompat.app.AppCompatActivity
+import android.os.Build
 import android.os.Bundle
-import android.content.Intent
+import android.os.Handler
+import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
-import com.bumptech.glide.Glide
-import android.Manifest
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.content.Context
-import android.content.pm.PackageManager
-import android.os.Build
-import android.os.Handler
-import android.util.Log
+import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.FileProvider
+import com.bumptech.glide.Glide
 import org.altbeacon.beacon.*
 import org.altbeacon.beacon.startup.BootstrapNotifier
 import org.altbeacon.beacon.startup.RegionBootstrap
 import permissions.dispatcher.NeedsPermission
+import java.io.File
+import java.io.FileOutputStream
 import java.util.*
+
 
 class MainActivity : AppCompatActivity(),BootstrapNotifier,BeaconConsumer {
     companion object {
@@ -48,7 +46,6 @@ class MainActivity : AppCompatActivity(),BootstrapNotifier,BeaconConsumer {
     private lateinit var beaconManager: BeaconManager
     private var region = Region("all-beacons-region", null, null, null)
     private lateinit var regionBootstrap: RegionBootstrap
-    
 //    class MainActivity : AppCompatActivity() {
 
     var serifBox = listOf("余は災いを払うべく生を得たのじゃ", "間合いに気を使うのじゃ", "手洗いうがいは出来ておるか？", "そーしゃるでぃすたんすを心得よ", "達者そうよの")
@@ -56,9 +53,22 @@ class MainActivity : AppCompatActivity(),BootstrapNotifier,BeaconConsumer {
     @RequiresApi(Build.VERSION_CODES.Q)
     @NeedsPermission(Manifest.permission.FOREGROUND_SERVICE, Manifest.permission.ACCESS_BACKGROUND_LOCATION)
     override fun onCreate(savedInstanceState: Bundle?) {
+        val preferences : SharedPreferences = getSharedPreferences(this.applicationContext.packageName +"_preference", Context.MODE_PRIVATE)
+        val editor : SharedPreferences.Editor = preferences.edit();
         super.onCreate(savedInstanceState)
         requestPermission()
-        setContentView(R.layout.activity_main)
+        if (!preferences.getBoolean("Launched", false)) {
+            Log.d("launch", "初回起動")
+            val intent = Intent(this, FirstLaunchActivity::class.java)
+            startActivity(intent)
+            setContentView(R.layout.activity_main)
+            editor.putBoolean("Launched", true)
+            editor.commit()
+        } else {
+            Log.d("launch", "2二回目")
+            setContentView(R.layout.activity_main)
+        }
+
         createNotificationChannel()
         val decorView: View = window.decorView
         var text_share = findViewById<ImageButton>(R.id.share_button)
