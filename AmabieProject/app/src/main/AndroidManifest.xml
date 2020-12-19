@@ -39,7 +39,9 @@
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
         <activity android:name=".SettingActivity" />
+        <activity android:name=".FirstLaunchActivity">
 
+        </activity>
         <activity android:name=".MainActivity">
 
             <intent-filter>
